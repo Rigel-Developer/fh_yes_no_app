@@ -15,12 +15,15 @@ class ChatScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
-        leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-            "https://images.pexels.com/photos/7577503/pexels-photo-7577503.jpeg?auto=compress&cs=tinysrgb&w=600",
+        leading: const Padding(
+          padding: EdgeInsets.all(6.0),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(
+              "https://images.pexels.com/photos/7577503/pexels-photo-7577503.jpeg?auto=compress&cs=tinysrgb&w=600",
+            ),
           ),
         ),
-        title: const Text('Amor de mi vida ❤️‍🔥'),
+        title: const Text('Flaca'),
         // centerTitle: true,
         // elevation: 0,
         // backgroundColor: Colors.transparent,
@@ -48,6 +51,7 @@ class _ChatView extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
+                controller: chatProvider.scrollController,
                 itemCount: chatProvider.messagesList.length,
                 itemBuilder: (context, index) {
                   final message = chatProvider.messagesList[index];
@@ -55,11 +59,13 @@ class _ChatView extends StatelessWidget {
                       ? MyMessageBubble(
                           message: message,
                         )
-                      : const HerMessageBubble();
+                      : HerMessageBubble(
+                          message: message,
+                        );
                 },
               ),
             ),
-            const MessageFieldBox(),
+            MessageFieldBox(onValue: chatProvider.addMessage),
           ],
         ),
       ),
